@@ -9,12 +9,6 @@
 import UIKit
 
 class TableViewController: UITableViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = UIColor.groupTableViewBackground
-    }
     
     @IBAction func pushAddAction(_ sender: Any) {
         
@@ -26,7 +20,7 @@ class TableViewController: UITableViewController {
         let alertAction1 = UIAlertAction(title: "Cancel", style: .default) { (alert) in }
         let alertAction2 = UIAlertAction(title: "Create", style: .default) { (alert) in
             
-            // добавить новую запись
+            // Create new task
             let newItem = alertController.textFields![0].text
             if newItem != "" {
                 addItem(nameItem: newItem!)
@@ -66,26 +60,22 @@ class TableViewController: UITableViewController {
         return cell
     }
 
-    // Вкл/выкл редактирование
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    // Редактирование
-    // Удаление
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             removeItem(at: indexPath.row)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+
         }    
     }
     
-    // обрабатываем нажатие
+    // pressing
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // снимаем выделение
         tableView.deselectRow(at: indexPath, animated: true)
         
         if changeState(at: indexPath.row) {
@@ -95,28 +85,8 @@ class TableViewController: UITableViewController {
         }
     }
     
-    // Вызывается когда ячейки меняем местами
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
         moveItem(fromIndex: fromIndexPath.row, toIndex: to.row)
         tableView.reloadData()
     }
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
